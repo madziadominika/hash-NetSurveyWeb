@@ -1,0 +1,228 @@
+/* ===========================
+     ESTILOS NORMALES (WEB)
+=========================== */
+html, body {
+  overflow-x: hidden !important;
+}
+
+#report-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #000000;     /* fondo oscuro */
+  color: #fff;
+  padding: 40px 0;
+}
+
+#report-container {
+  width: 100%;
+  max-width: 1200px;       /* ancho limpio y profesional */
+  margin: 0 auto;
+  padding: 30px 40px;
+}
+
+/* ====== TIPOGRAFÍA GENERAL MÁS GRANDE ====== */
+#report-container {
+  font-size: 20px;          /* tamaño base */
+  line-height: 1.6;
+}
+
+/* Títulos más grandes */
+h1.title {
+  font-size: 52px;
+}
+
+h2.main-title,
+h2.section-title,
+.box-title {
+  font-size: 32px;
+}
+
+/* Texto párrafos */
+.description,
+.paragraph {
+  font-size: 20px;
+}
+
+/* Listas */
+.info-list li {
+  font-size: 20px;
+}
+
+/* LOGO */
+.logo {
+  width: 200px;          
+  max-width: 100%;
+  height: auto;
+  margin-right: 25px;
+}
+
+/* Encabezado en fila (logo + texto) */
+.report-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+
+/* Texto al lado del logo */
+.header-text {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #ccc;
+}
+
+/* Separador */
+.separator {
+  border: none;
+  height: 2px;
+  background: #888;
+  margin: 25px 0;
+}
+
+/* Secciones */
+.main-title,
+.section-title {
+  text-align: center;
+  margin: 25px 0 15px;
+}
+
+.description,
+.paragraph {
+  text-align: center;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* ===============================
+     CAJA DE INFORMACIÓN (NUEVA)
+================================*/
+
+.box {
+  background: #111;             /* fondo sutil, más profesional */
+  border: 1px solid #666;       /* borde elegante */
+  border-radius: 10px;          
+  padding: 25px;
+  margin: 40px auto;
+  max-width: 600px;             /* ancho equilibrado */
+}
+
+.box-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+/* LISTA CENTRADA Y LIMPIA */
+.info-list {
+  list-style: disc inside;
+  width: fit-content;
+  margin: 0 auto;
+  text-align: left;
+  padding-left: 0;
+}
+
+.info-list li {
+  margin: 6px 0;
+  padding-left: 0;
+}
+
+/* Botón imprimir */
+.print-btn {
+  display: block;
+  margin: 30px auto 0 auto;
+  padding: 12px 28px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===========================
+          IMPRESIÓN
+=========================== */
+
+@media print {
+
+  /* Ocultar TODO excepto el contenedor del informe */
+  body * {
+    visibility: hidden !important;
+  }
+
+  #report-container, #report-container * {
+    visibility: visible !important;
+  }
+
+  /* Posicionar el informe arriba en la página de impresión */
+  #report-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Botón fuera */
+  .print-btn {
+    display: none !important;
+  }
+}
+
+
+  /* Quitar márgenes del navegador */
+  @page {
+    margin: 10mm !important;  /* margen pequeño pero seguro */
+  }
+/* ======= REDUCIR ALTURAS PARA CABER EN 2 PÁGINAS ======== */
+
+/* Quitar espacio arriba y abajo del informe */
+#report-container {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Quitar espacio enorme antes/depues de secciones */
+h1, h2, h3, p {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+
+/* Eliminar márgenes del bloque negro */
+.box {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+/* Eliminar separación antes de resumen técnico */
+.section-title {
+  margin-top: 15px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Quitar cualquier salto interno */
+* {
+  page-break-before: avoid !important;
+  page-break-after: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+
+
+
+
+
+
