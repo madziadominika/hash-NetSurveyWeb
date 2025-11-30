@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export default function UploadCSV() {
+export default function UploadCSV({ setCsvData }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [csvData, setCsvData] = useState([]);
+  const [csvPreview, setCsvPreview] = useState([]);  // ⬅ NUEVO: datos locales solo para visualizar
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -16,7 +16,7 @@ export default function UploadCSV() {
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile); // ← CORREGIDO
+    formData.append("file", selectedFile);
 
     const res = await fetch("http://localhost:4000/upload-csv", {
       method: "POST",
@@ -25,14 +25,18 @@ export default function UploadCSV() {
 
     const result = await res.json();
 
-    // Guardar los datos del CSV en el estado
+    // ⬅ Actualiza datos globales (para el informe)
     setCsvData(result.data);
+
+    // ⬅ Actualiza datos locales (para mostrar tabla arriba)
+    setCsvPreview(result.data);
 
     alert("Archivo importado correctamente");
   };
 
   return (
     <div style={{ textAlign: "center", marginBottom: "40px" }}>
+
       <h2 style={{ fontSize: "24px", marginBottom: "15px" }}>Subida de CSV</h2>
 
       <input
@@ -69,57 +73,68 @@ export default function UploadCSV() {
         Importar CSV
       </button>
 
-      {/* TABLA DEL CSV */}
-      {csvData.length > 0 && (
-        <div style={{ marginTop: "30px", overflowX: "auto" }}>
-          <h3 style={{ marginBottom: "15px" }}>Datos Importados</h3>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              backgroundColor: "#111",
-              color: "white",
-              borderRadius: "8px",
-            }}
-          >
-            <thead>
-              <tr>
-                {Object.keys(csvData[0]).map((key) => (
-                  <th
-                    key={key}
-                    style={{
-                      padding: "10px",
-                      borderBottom: "1px solid #444",
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {key}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+      {/* ⬇⬇⬇ AQUI APARECE EL RECUADRO CON LA TABLA CSV */}
+      {csvPreview.length > 0 && (
+        <div
+          style={{
+            marginTop: "40px",
+            background: "#111",
+            padding: "20px",
+            borderRadius: "12px",
+            border: "1px solid #444",
+            maxWidth: "95%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <h2 style={{ marginBottom: "20px" }}>Datos Importados</h2>
 
-            <tbody>
-              {csvData.map((row, index) => (
-                <tr key={index}>
-                  {Object.values(row).map((value, i) => (
-                    <td
-                      key={i}
+          <div style={{ overflowX: "auto" }}>
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                color: "white",
+              }}
+            >
+              <thead>
+                <tr>
+                  {Object.keys(csvPreview[0]).map((key) => (
+                    <th
+                      key={key}
                       style={{
-                        padding: "8px",
-                        borderBottom: "1px solid #333",
+                        padding: "10px",
+                        borderBottom: "1px solid #555",
+                        textTransform: "capitalize",
                       }}
                     >
-                      {value}
-                    </td>
+                      {key}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {csvPreview.map((row, index) => (
+                  <tr key={index}>
+                    {Object.values(row).map((value, i) => (
+                      <td
+                        key={i}
+                        style={{
+                          padding: "8px",
+                          borderBottom: "1px solid #333",
+                        }}
+                      >
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
   );
 }
-

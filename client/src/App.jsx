@@ -33,7 +33,7 @@ export default function App() {
           NetSurvey Web
         </h1>
 
-        <p style={{ fontSize: "18px", marginBottom: "40px", opacity: 0.9 }}>
+        <p style={{ fontSize: "42px", marginBottom: "40px", opacity: 0.9 }}>
           Seleccione un archivo CSV para procesar los datos de la red Wi-Fi.
         </p>
 
@@ -44,7 +44,7 @@ export default function App() {
       <div
         style={{
           width: "100%",
-          maxWidth: "1200px",      // mismo ancho que el resto
+          maxWidth: "900px",      // mismo ancho que el resto
           marginTop: "30px",
         }}
       >
@@ -59,7 +59,7 @@ export default function App() {
           marginTop: "40px",
         }}
       >
-        <ReportView />
+        <ReportView csvData={csvData} />
       </div>
     </div>
   );

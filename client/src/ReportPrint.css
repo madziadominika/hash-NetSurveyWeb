@@ -219,7 +219,27 @@ h1, h2, h3, p {
   page-break-after: avoid !important;
   page-break-inside: avoid !important;
 }
+/* ======= RESTAURAR RECUADRO DEL ENCABEZADO ======= */
 
+.report-header-box {
+  background: #111;             /* fondo oscuro del recuadro */
+  padding: 20px 30px;
+  border-radius: 12px;
+  border: 1px solid #555;       /* borde elegante */
+  margin: 20px auto 30px auto;
+  max-width: 900px;
+}
+
+.report-header-box .report-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+}
+
+.report-header-box .header-text {
+  text-align: left;
+}
 
 
 
