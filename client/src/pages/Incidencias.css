@@ -1,0 +1,105 @@
+/* === CONTENEDOR PRINCIPAL === */
+.incidencias-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+/* === BOTÓN PRINCIPAL === */
+.btn-new {
+  background-color: #4caf50;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.btn-new:hover {
+  background-color: #43a047;
+}
+
+/* === FORMULARIO === */
+.form-box {
+  background: #111;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  margin-bottom: 20px;
+}
+
+/* === TÍTULOS DEL FORMULARIO === */
+.form-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* === LABELS === */
+.form-label {
+  display: block;
+  text-align: left;
+  font-size: 17px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+/* === INPUTS Y TEXTAREA === */
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #222;
+  border: 1px solid #444;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+.form-textarea {
+  height: 110px;
+  resize: vertical;
+}
+
+/* === BOTONES GUARDAR/CANCELAR === */
+.btn-save {
+  background-color: #1e88e5;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.btn-cancel {
+  background-color: #666;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* === LISTA === */
+.no-incidencias {
+  margin-top: 20px;
+  color: #ccc;
+  font-size: 16px;
+}
+
+.lista-incidencias {
+  list-style: none;
+  padding: 0;
+}
+
+.inc-item {
+  background: #111;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.thumb {
+  max-width: 200px;
+  border-radius: 6px;
+  margin-top: 10px;
+}

@@ -1,108 +1,93 @@
+// src/components/MapView.jsx
 import { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-export default function MapView({ csvData = [] }) {
+export default function MapView({ csvData = [], plano }) {
   useEffect(() => {
+    if (!plano) return;
+
     // Reiniciar mapa si ya existe
     if (L.DomUtil.get("map") !== null) {
       L.DomUtil.get("map")._leaflet_id = null;
     }
 
-    // Tamaño real del plano
-    const width = 3500;
-    const height = 2500;
+    const width = 3650;
+    const height = 2650;
 
     const bounds = [
       [0, 0],
       [height, width],
     ];
 
-    // Crear mapa
     const map = L.map("map", {
       crs: L.CRS.Simple,
       minZoom: -2,
       maxZoom: 2,
-      zoomControl: true,
+      zoomControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      touchZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      inertia: false,
     });
 
-    // Imagen del plano
-    L.imageOverlay("/plano.png", bounds).addTo(map);
+    L.imageOverlay(plano, bounds).addTo(map);
     map.fitBounds(bounds);
+    map.setMaxBounds(bounds);
 
-    // ======================================================
-    // DATOS TÉCNICOS SEGÚN COLOR
-    // ======================================================
+    // Si no hay CSV, no se muestran puntos
+    if (!csvData || csvData.length === 0) {
+      return;
+    }
 
-    const getPopupInfo = (color) => {
-      switch (color) {
-        case "green":
-          return {
-            cobertura: "Excelente",
-            rssi: "-48 dBm",
-            canal: "1 / 36",
-            interferencia: "Baja",
-          };
+    function getStatsFor(locationName) {
+      const rows = csvData.filter(
+        (r) =>
+          (r.ubicacion || r.Ubicacion || "").toLowerCase() ===
+          locationName.toLowerCase()
+      );
 
-        case "yellow":
-          return {
-            cobertura: "Buena",
-            rssi: "-60 dBm",
-            canal: "1 / 36",
-            interferencia: "Media-baja",
-          };
+      if (!rows.length) return null;
 
-        case "orange":
-          return {
-            cobertura: "Regular",
-            rssi: "-72 dBm",
-            canal: "6 / 40",
-            interferencia: "Media",
-          };
+      const canales = [...new Set(rows.map((r) => r.canal || r.Canal))];
+      const rssis = rows
+        .map((r) => Number(r.rssi || r.RSSI))
+        .filter((n) => !isNaN(n));
 
-        case "red":
-          return {
-            cobertura: "Mala",
-            rssi: "-85 dBm",
-            canal: "11 / 44",
-            interferencia: "Alta",
-          };
+      const avgRSSI =
+        rssis.length > 0
+          ? Math.round(rssis.reduce((a, b) => a + b, 0) / rssis.length)
+          : "—";
 
-        default:
-          return {
-            cobertura: "-",
-            rssi: "-",
-            canal: "-",
-            interferencia: "-",
-          };
-      }
-    };
+      return {
+        mediciones: rows.length,
+        canales,
+        avgRSSI,
+        ssid: rows[0].ssid || rows[0].SSID || "—",
+        bssid: rows[0].bssid || rows[0].BSSID || "—",
+      };
+    }
 
-    // ======================================================
-    //  PUNTOS FIJOS POR HABITACIÓN
-    // ======================================================
-
-    const puntosFijos = [
-      { nombre: "Comunicación / CPD", color: "yellow", x: 1000, y: 2100 },
-      { nombre: "Sala de Reuniones", color: "yellow", x: 900, y: 1800 },
+    // Puntos fijos del plano
+    const puntos = [
+      { nombre: "Sala de Reuniones", color: "green", x: 900, y: 1800 },
       { nombre: "Recepción", color: "green", x: 1500, y: 2000 },
-      { nombre: "Open Space (Arriba)", color: "green", x: 1500, y: 1500 },
-      { nombre: "Open Space (centro)", color: "green", x: 1500, y: 1000 },
-      { nombre: "Open Space (abajo)", color: "green", x: 1500, y: 500 },
+      { nombre: "Open Space Arriba", color: "green", x: 1500, y: 1500 },
+      { nombre: "Open Space Centro", color: "green", x: 1500, y: 1000 },
+      { nombre: "Open Space Abajo", color: "green", x: 1500, y: 500 },
       { nombre: "Cocina", color: "orange", x: 3100, y: 2000 },
       { nombre: "Aseos 1", color: "red", x: 1000, y: 600 },
       { nombre: "Aseos 2", color: "red", x: 1000, y: 250 },
+      { nombre: "AP1", color: "pink", x: 1212, y: 1612 },
+      { nombre: "AP2", color: "pink", x: 3100, y: 124 },
     ];
 
-    // ======================================================
-    //  DIBUJAR PUNTOS FIJOS (CON FADE-IN + autoPan OFF)
-    // ======================================================
-
-    puntosFijos.forEach((p) => {
-      const info = getPopupInfo(p.color);
-
-      const markerIcon = L.divIcon({
-        className: "custom-marker marker-fade",   // ⭐ ADD FADE-IN HERE
+    puntos.forEach((p) => {
+      const icon = L.divIcon({
+        className: "ns-marker-icon",
         html: `
           <div style="
             width: 26px;
@@ -110,83 +95,49 @@ export default function MapView({ csvData = [] }) {
             background: ${p.color};
             border: 3px solid white;
             border-radius: 50%;
-          "></div>
-        `,
+          "></div>`,
         iconSize: [26, 26],
         iconAnchor: [13, 13],
       });
 
-      L.marker([p.y, p.x], {
-        icon: markerIcon,
-        autoPan: false,
-      })
-        .addTo(map)
-        .bindPopup(
-          `
-          <strong>${p.nombre}</strong><br/>
-          Cobertura estimada: ${info.cobertura}<br/>
-          RSSI estimado: ${info.rssi}<br/>
-          Canal recomendado: ${info.canal}<br/>
-          Interferencia: ${info.interferencia}
-        `,
-          {
-            autoPan: false,
-          }
-        );
+      const marker = L.marker([p.y, p.x], { icon }).addTo(map);
+
+      const info = getStatsFor(p.nombre);
+
+      marker.bindPopup(
+        info
+          ? `
+            <strong>${p.nombre}</strong><br/>
+            SSID: ${info.ssid}<br/>
+            BSSID: ${info.bssid}<br/>
+            Canal/es: ${info.canales.join(", ")}<br/>
+            Mediciones: ${info.mediciones}<br/>
+            RSSI promedio: ${info.avgRSSI} dBm`
+          : `<strong>${p.nombre}</strong><br/>Sin datos para este punto.`
+      );
     });
-
-    // ======================================================
-    //   LEYENDA
-    // ======================================================
-
-    const legend = L.control({ position: "bottomleft" });
-
-    legend.onAdd = function () {
-      const div = L.DomUtil.create("div", "info legend");
-      div.style.background = "#111";
-      div.style.padding = "10px 15px";
-      div.style.borderRadius = "8px";
-      div.style.color = "white";
-      div.innerHTML = `
-        <strong>Leyenda</strong><br/>
-        <span style="color:green">●</span> Excelente<br/>
-        <span style="color:yellow">●</span> Buena<br/>
-        <span style="color:orange">●</span> Regular<br/>
-        <span style="color:red">●</span> Mala<br/>
-      `;
-      return div;
-    };
-
-    legend.addTo(map);
-  }, [csvData]);
+  }, [csvData, plano]);
 
   return (
-    <div>
-      <h2
-        style={{
-          textAlign: "center",
-          marginTop: "40px",
-          fontSize: "32px",
-        }}
-      >
-        Mapa de Medidas (Plano)
-      </h2>
+    <div style={{ width: "100%", textAlign: "center", marginTop: "40px" }}>
+      <h2 style={{ fontSize: "40px" }}>Mapa de Medidas</h2>
 
-      <div
-        id="map"
-        style={{
-          height: "650px",
-          width: "100%",
-          borderRadius: "15px",
-          border: "2px solid #555",
-          marginTop: "20px",
-        }}
-      ></div>
+      {!plano ? (
+        <p style={{ opacity: 0.6 }}>No hay plano cargado.</p>
+      ) : (
+        <div
+          id="map"
+          style={{
+            height: "650px",
+            width: "100%",
+            maxWidth: "900px",
+            margin: "0 auto",
+            borderRadius: "15px",
+            border: "2px solid #555",
+            marginTop: "20px",
+          }}
+        />
+      )}
     </div>
   );
 }
-
-
-
-
-

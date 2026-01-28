@@ -62,3 +62,11 @@ button:hover {
     background-color: #f9f9f9;
   }
 }
+/* Quitar recuadro gris de los marcadores Leaflet */
+.ns-marker-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+

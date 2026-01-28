@@ -8,73 +8,60 @@ html, body {
 #report-page {
   width: 100%;
   min-height: 100vh;
-  background: #000000;     /* fondo oscuro */
+  background: #000000;
   color: #fff;
   padding: 40px 0;
 }
 
 #report-container {
   width: 100%;
-  max-width: 1200px;       /* ancho limpio y profesional */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 30px 40px;
-}
-
-/* ====== TIPOGRAFÍA GENERAL MÁS GRANDE ====== */
-#report-container {
-  font-size: 20px;          /* tamaño base */
+  font-size: 20px;
   line-height: 1.6;
 }
 
-/* Títulos más grandes */
+/* TÍTULOS */
 h1.title {
-  font-size: 52px;
+  font-size: 68px;
 }
 
 h2.main-title,
 h2.section-title,
 .box-title {
-  font-size: 32px;
+  font-size: 48px;
 }
 
-/* Texto párrafos */
 .description,
 .paragraph {
   font-size: 20px;
-}
-
-/* Listas */
-.info-list li {
-  font-size: 20px;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 /* LOGO */
 .logo {
-  width: 200px;          
-  max-width: 100%;
+  width: 200px;
   height: auto;
   margin-right: 25px;
 }
 
-/* Encabezado en fila (logo + texto) */
 .report-header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 35px;
   margin-bottom: 25px;
-  padding-top: 10px;
 }
 
-/* Texto al lado del logo */
 .header-text {
   text-align: left;
-  margin-top: 10px;
 }
 
 .subtitle {
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 30px;
   color: #ccc;
 }
 
@@ -87,71 +74,131 @@ h2.section-title,
 }
 
 /* Secciones */
-.main-title,
 .section-title {
   text-align: center;
   margin: 25px 0 15px;
-}
-
-.description,
-.paragraph {
-  text-align: center;
-  margin-bottom: 25px;
-  line-height: 1.5;
+  font-size: 40px !important;
 }
 
 /* ===============================
-     CAJA DE INFORMACIÓN (NUEVA)
+     CAJAS
 ================================*/
-
 .box {
-  background: #111;             /* fondo sutil, más profesional */
-  border: 1px solid #666;       /* borde elegante */
-  border-radius: 10px;          
-  padding: 25px;
+  background: #111;
+  border: 1px solid #666;
+  border-radius: 10px;
+  padding: 15px;
   margin: 40px auto;
-  max-width: 600px;             /* ancho equilibrado */
+  max-width: 600px;
 }
 
 .box-title {
   text-align: center;
-  font-size: 32px;
+  font-size: 36px;
   margin-bottom: 25px;
   font-weight: bold;
 }
 
-/* LISTA CENTRADA Y LIMPIA */
 .info-list {
-  list-style: disc inside;
-  width: fit-content;
-  margin: 0 auto;
+  list-style: disc outside;
+  margin: 5px auto;
+  padding-left: 100px;
   text-align: left;
-  padding-left: 0;
 }
 
-.info-list li {
-  margin: 6px 0;
-  padding-left: 0;
+/* ===============================
+     LISTA RECOMENDACIONES
+================================*/
+.reco-list {
+  list-style-type: disc;
+  padding-left: 150px !important;
+  margin: 10px auto;
+  max-width: 700px;
+  text-align: left !important;
 }
 
-/* Botón imprimir */
+.reco-list li {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* ===============================
+     TABLAS
+================================*/
+.table-box {
+  background: transparent !important;
+  border: none !important;
+  padding: 10px 0 !important;
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse !important;
+  background: #fff;
+  color: #000;
+  font-size: 18px;
+  border: 2px solid #000 !important;
+}
+
+.styled-table th {
+  background: #e6e6e6;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #000 !important;
+  font-weight: bold;
+}
+
+.styled-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #000 !important;
+}
+
+.styled-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.styled-table tr:hover {
+  background: #eee;
+}
+
+.total-row td {
+  background: #f0f0f0;
+  font-size: 20px;
+  font-weight: bold;
+  border-top: 2px solid #000 !important;
+}
+
+/* INPUTS BOQ */
+.boq-input {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #999 !important;
+  padding: 6px 8px !important;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+/* BOTÓN IMPRIMIR */
 .print-btn {
   display: block;
-  margin: 30px auto 0 auto;
+  margin: 30px auto;
   padding: 12px 28px;
   font-size: 18px;
   border-radius: 8px;
   border: none;
-  cursor: pointer;
 }
 
 /* ===========================
           IMPRESIÓN
 =========================== */
-
 @media print {
 
-  /* Ocultar TODO excepto el contenedor del informe */
   body * {
     visibility: hidden !important;
   }
@@ -160,89 +207,67 @@ h2.section-title,
     visibility: visible !important;
   }
 
-  /* Posicionar el informe arriba en la página de impresión */
   #report-container {
     position: absolute !important;
     top: 0 !important;
-    left: 0 !important;
+    left: -10px !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 20px !important;
+    max-width: 780px !important;  /* 🔥 evita que salga 5ª hoja */
+    margin: 0 auto !important;
+    padding: 0 !important;
     background: white !important;
     color: black !important;
+    page-break-after: avoid !important;
   }
 
-  /* Botón fuera */
-  .print-btn {
+  /** TABLA AJUSTADA PARA IMPRESIÓN **/
+  .styled-table {
+    width: 92% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    table-layout: fixed !important;
+  }
+
+  /* PRIMERA COLUMNA: CONCEPTO MÁS ANCHA */
+  .styled-table th:nth-child(1),
+  .styled-table td:nth-child(1) {
+    width: 45% !important;
+  }
+
+  /* INPUTS DEL CONCEPTO ADAPTADOS A VARIAS LÍNEAS */
+  .styled-table td input.boq-input {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+
+    height: auto !important;
+    min-height: 50px !important;
+    line-height: 1.3 !important;
+
+    padding: 6px !important;
+    width: 100% !important;
+    border: 1px solid #000 !important;
+    background: #fff !important;
+  }
+
+  .styled-table td {
+    vertical-align: top !important;
+  }
+
+  /* OCULTAR BOTONES EN PDF */
+  button {
+    display: none !important;
+  }
+
+  /* OCULTAR COLUMNA ACCIONES EN PDF */
+  .styled-table th:nth-child(5),
+  .styled-table td:nth-child(5) {
     display: none !important;
   }
 }
 
-
-  /* Quitar márgenes del navegador */
-  @page {
-    margin: 10mm !important;  /* margen pequeño pero seguro */
-  }
-/* ======= REDUCIR ALTURAS PARA CABER EN 2 PÁGINAS ======== */
-
-/* Quitar espacio arriba y abajo del informe */
-#report-container {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+@page {
+  margin: 8mm !important;
+  size: A4 portrait;
+  overflow: hidden !important;
 }
-
-/* Quitar espacio enorme antes/depues de secciones */
-h1, h2, h3, p {
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
-}
-
-/* Eliminar márgenes del bloque negro */
-.box {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-}
-
-/* Eliminar separación antes de resumen técnico */
-.section-title {
-  margin-top: 15px !important;
-  margin-bottom: 10px !important;
-}
-
-/* Quitar cualquier salto interno */
-* {
-  page-break-before: avoid !important;
-  page-break-after: avoid !important;
-  page-break-inside: avoid !important;
-}
-/* ======= RESTAURAR RECUADRO DEL ENCABEZADO ======= */
-
-.report-header-box {
-  background: #111;             /* fondo oscuro del recuadro */
-  padding: 20px 30px;
-  border-radius: 12px;
-  border: 1px solid #555;       /* borde elegante */
-  margin: 20px auto 30px auto;
-  max-width: 900px;
-}
-
-.report-header-box .report-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 35px;
-}
-
-.report-header-box .header-text {
-  text-align: left;
-}
-
-
-
-
-
-
