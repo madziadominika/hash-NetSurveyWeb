@@ -271,3 +271,18 @@ h2.section-title,
   size: A4 portrait;
   overflow: hidden !important;
 }
+
+/* 🔥 FIX PÁGINA BLANCA FINAL */
+#report-page {
+  min-height: auto !important;
+}
+
+html, body {
+  height: auto !important;
+}
+
+/* Evitar página extra final */
+#report-container:last-child {
+  page-break-after: avoid !important;
+  break-after: avoid-page !important;
+}

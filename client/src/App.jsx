@@ -41,13 +41,27 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const img64 = ev.target.result;
-      setPlano(img64);
-      localStorage.setItem("planoCustom", img64);
 
+      setPlano(img64);
       setPlanoNombre(file.name);
+
+      localStorage.setItem("planoCustom", img64);
       localStorage.setItem("planoNombre", file.name);
     };
     reader.readAsDataURL(file);
+  }
+
+  // ✅ RESET CORRECTO DEL PLANO (imagen + nombre + storage + input)
+  function resetPlano() {
+    setPlano(null);
+    setPlanoNombre("");
+
+    localStorage.removeItem("planoCustom");
+    localStorage.removeItem("planoNombre");
+
+    if (planoInputRef.current) {
+      planoInputRef.current.value = "";
+    }
   }
 
   // Autorrellenar datos cuando se carga un plano
@@ -111,7 +125,6 @@ export default function App() {
             marginBottom: "30px",
           }}
         >
-          {/* Fila 1 */}
           <div style={{ display: "flex", gap: "60px" }}>
             <label style={{ fontSize: "22px" }}>
               Cliente / Empresa
@@ -146,7 +159,6 @@ export default function App() {
             </label>
           </div>
 
-          {/* Fila 2 */}
           <div style={{ display: "flex", gap: "60px" }}>
             <label style={{ fontSize: "22px" }}>
               Proyecto
@@ -202,6 +214,25 @@ export default function App() {
               style={{ padding: "10px", width: "400px" }}
             />
           </div>
+
+          {plano && (
+            <div style={{ marginTop: "15px" }}>
+              <button
+                onClick={resetPlano}
+                style={{
+                  padding: "8px 16px",
+                  background: "#b00020",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                Quitar plano
+              </button>
+            </div>
+          )}
 
           {planoNombre && (
             <p style={{ fontSize: "18px", marginTop: "10px" }}>
